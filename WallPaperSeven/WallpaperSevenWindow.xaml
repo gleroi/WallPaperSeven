@@ -6,7 +6,7 @@
         mc:Ignorable="d" 
         xmlns:ui="clr-namespace:WallPaperSeven.ScreenConfiguration"
         Height="Auto" Width="Auto"
-        Title="WallPaperSeven" d:DesignHeight="350" d:DesignWidth="525">
+        Title="WallPaperSeven" d:DesignHeight="350" d:DesignWidth="525" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -19,20 +19,18 @@
         </GroupBox>
         
         <GroupBox Grid.Row="1" Header="Ecrans">
-            <ListBox ItemsSource="{Binding Path=ScreenConfigurations}" >
-                <ListBox.ItemsPanel>
+            <ItemsControl ItemsSource="{Binding Path=ScreenConfigurations}" Name="screensList" >
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" />
+                        <UniformGrid Rows="1" VerticalAlignment="Stretch" />
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Red" BorderThickness="1">
-                            <ui:ScreenConfigurationControl />
-                        </Border>
+                        <ui:ScreenConfigurationControl />
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
                 
         </GroupBox>
         <StatusBar Grid.Row="2"  />

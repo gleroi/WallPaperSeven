@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:utils="clr-namespace:WallPaperSeven.Utils"
              xmlns:wp="clr-namespace:WallPaperSeven.Wallpaper;assembly=Wallpaper"
-             mc:Ignorable="d" MinWidth="500" MinHeight="300"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="500">
     <Grid>
         <Grid.RowDefinitions>
@@ -26,10 +26,10 @@
         <GroupBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                   Header="Images disponibles" VerticalContentAlignment="Stretch">
             <ListBox ItemsSource="{Binding Path=AvailableImages}" SelectedItem="{Binding SelectedImage}" 
-                     IsSynchronizedWithCurrentItem="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch">
+                     IsSynchronizedWithCurrentItem="True">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid VerticalAlignment="Stretch" />
+                        <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
@@ -43,8 +43,10 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Image Source="{Binding Path=Image}" Height="100" />
-                                <TextBlock Grid.Row="1" Text="{Binding Path=Filename}" HorizontalAlignment="Center"/>
+                                <Image Name="imageItem" Source="{Binding Path=Image}" Height="100" HorizontalAlignment="Center" />
+                                <Border Grid.Row="1" BorderThickness="0" />
+                                <TextBlock Grid.Row="1" Text="{Binding Path=Filename}" HorizontalAlignment="Center" TextAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" Width="{Binding ElementName=imageItem, Path=ActualWidth}" />
                             </Grid>
                         </GroupBox>
                     </DataTemplate>
