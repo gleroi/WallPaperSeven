@@ -5,8 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         mc:Ignorable="d" 
         xmlns:ui="clr-namespace:WallPaperSeven.ScreenConfiguration"
-        Height="Auto" Width="Auto"
-        Title="WallPaperSeven" d:DesignHeight="350" d:DesignWidth="525" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        Height="Auto" Width="Auto" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+        Title="WallPaperSeven" d:DesignHeight="350" d:DesignWidth="525" Icon="/WallPaperSeven;component/app.ico" StateChanged="Window_StateChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -31,8 +31,15 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-                
         </GroupBox>
-        <StatusBar Grid.Row="2"  />
+        
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="1" Content="Ok" Width="70" />
+        </Grid>
     </Grid>
 </Window>

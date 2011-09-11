@@ -15,7 +15,7 @@ namespace WallpaperConsole
             args = new string[2] {
                 //@"C:\Users\gleroi\Pictures\Wallpapers\abyss___chaotica_rendered_by_kr0mat1k-d31el6e.jpg",
                 @"C:\Users\gleroi\Pictures\Wallpapers\abyss___chaotica_rendered_by_kr0mat1k-d31el6e.jpg",
-                @"C:\Users\gleroi\Pictures\Wallpapers\Fractal-flowers-1440x900.jpg"
+                @"C:\Users\gleroi\Pictures\Wallpapers\fractal_19-wallpaper-1440x900.jpg"
             };
             Manager manager = new Manager();
 

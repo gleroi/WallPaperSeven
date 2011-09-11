@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -74,7 +77,6 @@
       <DependentUpon>ScreenConfigurationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScreenConfiguration\ScreenConfigurationViewModel.cs" />
-    <Compile Include="ScreenConfiguration\StyleEnumConverter.cs" />
     <Compile Include="Utils\DelegateCommand.cs" />
     <Compile Include="Utils\EnumValuesProvider.cs" />
     <Compile Include="Utils\ViewModelBase.cs" />
@@ -116,7 +118,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
+    <Folder Include="Resources\" />
     <Folder Include="ViewModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

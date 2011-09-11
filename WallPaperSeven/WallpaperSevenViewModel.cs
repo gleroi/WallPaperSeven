@@ -26,7 +26,6 @@ namespace WallPaperSeven
             }
         }
 
-
         public Manager WallPaperManager { get; set; }
         public ObservableCollection<ScreenConfigurationViewModel> ScreenConfigurations { get; set; }
 
