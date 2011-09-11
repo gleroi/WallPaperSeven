@@ -44,12 +44,13 @@
   <ItemGroup>
     <Compile Include="CenteredDrawer.cs" />
     <Compile Include="IDrawer.cs" />
-    <Compile Include="Manager.cs" />
+    <Compile Include="WallpaperConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StretchedDrawer.cs" />
     <Compile Include="TiledDrawer.cs" />
-    <Compile Include="WallpaperConfiguration.cs" />
+    <Compile Include="ScreenConfiguration.cs" />
     <Compile Include="WallpaperHelper.cs" />
+    <Compile Include="WallpaperService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

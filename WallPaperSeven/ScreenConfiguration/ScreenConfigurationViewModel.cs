@@ -12,6 +12,13 @@ namespace WallPaperSeven.ScreenConfiguration
 {
     class ScreenConfigurationViewModel : ViewModelBase
     {
+        public ScreenConfigurationViewModel(Wallpaper.ScreenConfiguration config)
+        {
+            ScreenConfig = config;
+        }
+
+        Wallpaper.ScreenConfiguration ScreenConfig { get; set; }
+
         string sourceDirectoryPath = null;
         public string SourceDirectoryPath {
             get
@@ -66,6 +73,7 @@ namespace WallPaperSeven.ScreenConfiguration
                 if (selectedImage != value)
                 {
                     selectedImage = value;
+                    ScreenConfig.ImagePath = selectedImage.Path;
                     OnPropertyChanged("SelectedImage");
                 }
             }
@@ -79,6 +87,7 @@ namespace WallPaperSeven.ScreenConfiguration
                 if (selectedStyle != value)
                 {
                     selectedStyle = value;
+                    ScreenConfig.Style = selectedStyle;
                     OnPropertyChanged("SelectedStyle");
                 }
             }

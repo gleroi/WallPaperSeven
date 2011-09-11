@@ -2,43 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace WallPaperSeven.Wallpaper
 {
-    public enum Style : int
-    {
-        Centered,
-        Tiled,
-        Stretched
-    }
-
+    /// <summary>
+    /// Manage the association of wallpaper <-> screen.
+    /// Build the overall image.
+    /// <remarks>This method suppose that screens are organized horizontally</remarks>
+    /// </summary>
     public class WallpaperConfiguration
     {
-        public WallpaperConfiguration(Screen screen, Rectangle location)
+        public WallpaperConfiguration()
         {
-            this.screen = screen;
-            this.bounds = location;
+            Initialize();
         }
 
-        public Image Image { get; set; }
-        public Style Style { get; set; }
+        public List<ScreenConfiguration> Screens { get; set; }
+        public Rectangle VirtualScreenBounds { get; set; }
 
-        readonly Rectangle bounds;
         /// <summary>
-        /// Position of the screen relatively to the virtual screen
+        /// Initialize the wallpapers instance with the available screens
         /// </summary>
-        public Rectangle Bounds 
+        private void Initialize()
         {
-            get { return bounds; }
-        }
+            List<Screen> screens = new List<Screen>(Screen.AllScreens);
+            
+            // get virtual screen size
+            List<Rectangle> screenSizes = screens.ConvertAll(screen => screen.Bounds);
+            VirtualScreenBounds = new Rectangle(0, 0,
+                screenSizes.Sum(size => size.Width),
+                screenSizes.Max(size => size.Height));
 
-        readonly Screen screen = null;
-        public Screen Screen
-        {
-            get { return screen; }
+            Screens = new List<ScreenConfiguration>();
+            int xpos = 0;
+            foreach (Screen screen in screens)
+            {
+                Screens.Add(new ScreenConfiguration(screen,
+                    new Rectangle(xpos, 0, screen.Bounds.Width, screen.Bounds.Height)));
+                xpos += screen.Bounds.Width;
+            }
         }
-
+        
     }
 }

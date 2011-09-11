@@ -8,15 +8,18 @@ namespace WallPaperSeven.Wallpaper
 {
     class CenteredDrawer : IDrawer
     {
-        public void Draw(System.Drawing.Graphics gs, WallpaperConfiguration conf)
+        public void Draw(System.Drawing.Graphics gs, ScreenConfiguration conf)
         {
-            Point screenCenter = new Point(conf.Bounds.Width / 2, conf.Bounds.Height / 2);
-            Size imageSize = conf.Image.Size;
-            Point imageOrigin = new Point(
-                conf.Bounds.X + screenCenter.X - (imageSize.Width / 2),
-                conf.Bounds.Y + screenCenter.Y - (imageSize.Height / 2));
-            gs.DrawImageUnscaledAndClipped(conf.Image, new Rectangle(
-                imageOrigin, conf.Image.Size));
+            using (Image image = Image.FromFile(conf.ImagePath))
+            {
+                Point screenCenter = new Point(conf.Bounds.Width / 2, conf.Bounds.Height / 2);
+                Size imageSize = image.Size;
+                Point imageOrigin = new Point(
+                    conf.Bounds.X + screenCenter.X - (imageSize.Width / 2),
+                    conf.Bounds.Y + screenCenter.Y - (imageSize.Height / 2));
+                gs.DrawImageUnscaledAndClipped(image, new Rectangle(
+                    imageOrigin, image.Size));
+            }
         }
     }
 }

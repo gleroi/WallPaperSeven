@@ -119,6 +119,7 @@
   <ItemGroup>
     <Folder Include="Controls\" />
     <Folder Include="Resources\" />
+    <Folder Include="Services\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>

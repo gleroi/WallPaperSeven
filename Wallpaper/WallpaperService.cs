@@ -2,48 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using System.Drawing;
 using System.Diagnostics;
 using System.IO;
-using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace WallPaperSeven.Wallpaper
 {
-    /// <summary>
-    /// Manage the association of wallpaper <-> screen.
-    /// Build the overall image.
-    /// <remarks>This method suppose that screens are organized horizontally</remarks>
-    /// </summary>
-    public class Manager
+    class WallpaperServiceException : Exception
     {
-        public Manager()
+        public WallpaperServiceException()
+        { }
+
+        public WallpaperServiceException(string msg)
+            : base(msg)
+        { }
+
+        public WallpaperServiceException(string msg, Exception inner)
+            : base(msg, inner)
+        { }
+    }
+
+    public class WallpaperService
+    {
+        public WallpaperService()
         {
             Initialize();
         }
 
-        /// <summary>
-        /// Initialize the wallpapers instance with the available screens
-        /// </summary>
-        private void Initialize()
+        WallpaperConfiguration Configuration { get; set; }
+        Dictionary<Style, IDrawer> Drawers { get; set; }
+
+        public void Initialize() 
         {
-            List<Screen> screens = new List<Screen>(Screen.AllScreens);
-            
-            // get virtual screen size
-            List<Rectangle> screenSizes = screens.ConvertAll(screen => screen.Bounds);
-            VirtualScreenBounds = new Rectangle(0, 0,
-                screenSizes.Sum(size => size.Width),
-                screenSizes.Max(size => size.Height));
-
-            Wallpapers = new List<WallpaperConfiguration>();
-            int xpos = 0;
-            foreach (Screen screen in screens)
-            {
-                Wallpapers.Add(new WallpaperConfiguration(screen,
-                    new Rectangle(xpos, 0, screen.Bounds.Width, screen.Bounds.Height)));
-                xpos += screen.Bounds.Width;
-            }
-
             Drawers = new Dictionary<Style, IDrawer>()
             {
                 { Style.Centered, new CenteredDrawer() },
@@ -52,17 +43,28 @@ namespace WallPaperSeven.Wallpaper
             };
         }
 
-        Dictionary<Style, IDrawer> Drawers { get; set; }
+        public void Configure(WallpaperConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-        public List<WallpaperConfiguration> Wallpapers { get; set; }
-        public Rectangle VirtualScreenBounds { get; set; }
+        public void Run()
+        {
+            if (Configuration == null) throw new WallpaperServiceException("Configuration is null. Call Wallpaper.Configure()");
 
+            SetWallpaper();
+        }
+
+        public void Stop()
+        {
+
+        }
 
         /// <summary>
         /// Set the wallpaper depending on the configurations in the property <c>Wallpapers</c>
         /// </summary>
         /// <returns>return true if the wallpaper has been set</returns>
-        public bool SetWallpaper()
+        protected bool SetWallpaper()
         {
             try
             {
@@ -83,16 +85,17 @@ namespace WallPaperSeven.Wallpaper
         /// 
         /// </summary>
         /// <returns></returns>
-        public string GenerateWallpaper()
+        protected string GenerateWallpaper()
         {
             string path = Path.GetTempFileName();
 
             // create an image for virtual screen
-            Image image = new Bitmap(VirtualScreenBounds.Width, VirtualScreenBounds.Height);
+            Image image = new Bitmap(Configuration.VirtualScreenBounds.Width, 
+                Configuration.VirtualScreenBounds.Height);
             Graphics gs = Graphics.FromImage(image);
 
             // generate an image based on the described configuration
-            foreach (WallpaperConfiguration wallConf in Wallpapers)
+            foreach (ScreenConfiguration wallConf in Configuration.Screens)
             {
                 // draw image
                 IDrawer drawer = Drawers[wallConf.Style];

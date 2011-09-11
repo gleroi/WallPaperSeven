@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             
-            <Button Grid.Column="1" Content="Ok" Width="70" />
+            <Button Grid.Column="1" Content="Appliquer" Command="{Binding Path=ApplyConfigurationCommand}" />
         </Grid>
     </Grid>
 </Window>

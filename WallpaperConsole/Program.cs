@@ -17,23 +17,22 @@ namespace WallpaperConsole
                 @"C:\Users\gleroi\Pictures\Wallpapers\abyss___chaotica_rendered_by_kr0mat1k-d31el6e.jpg",
                 @"C:\Users\gleroi\Pictures\Wallpapers\fractal_19-wallpaper-1440x900.jpg"
             };
-            Manager manager = new Manager();
+            WallpaperConfiguration configuration = new WallpaperConfiguration();
 
-            if (manager.Wallpapers.Count != args.Length)
-                throw new ArgumentException("args : need at least " + manager.Wallpapers.Count + " paths");
+            if (configuration.Screens.Count != args.Length)
+                throw new ArgumentException("args : need at least " + configuration.Screens.Count + " paths");
 
             int idx = 0;
-            foreach (WallpaperConfiguration conf in manager.Wallpapers)
+            foreach (ScreenConfiguration conf in configuration.Screens)
             {
-                conf.Image = Image.FromFile(args[idx]);
+                conf.ImagePath = args[idx];
                 conf.Style = Style.Tiled;
                 idx++;
             }
 
-            if (manager.SetWallpaper())
-                Debug.WriteLine("Ok!");
-            else
-                Debug.WriteLine("Failed!");
+            WallpaperService service = new WallpaperService();
+            service.Configure(configuration);
+            service.Run();
         }
     }
 }

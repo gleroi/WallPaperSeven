@@ -13,6 +13,6 @@ namespace WallPaperSeven.Wallpaper
         /// </summary>
         /// <param name="gs"></param>
         /// <param name="conf"></param>
-        void Draw(Graphics gs, WallpaperConfiguration conf);
+        void Draw(Graphics gs, ScreenConfiguration conf);
     }
 }
