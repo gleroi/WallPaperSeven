@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:utils="clr-namespace:WallPaperSeven.Utils"
+             xmlns:wp="clr-namespace:WallPaperSeven.Wallpaper;assembly=Wallpaper"
+             mc:Ignorable="d" MinWidth="500" MinHeight="300"
+             d:DesignHeight="300" d:DesignWidth="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -22,18 +24,29 @@
         <Button Grid.Column="2" Name="directorySearchButton" Content="Parcourir" Command="{Binding SearchDirectoryCommand}" />
         
         <GroupBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
-                  Header="Images disponibles">
-            <ListBox ItemsSource="{Binding Path=AvaibleImages}" SelectedItem="{Binding SelectedImage}" IsSynchronizedWithCurrentItem="True">
+                  Header="Images disponibles" VerticalContentAlignment="Stretch">
+            <ListBox ItemsSource="{Binding Path=AvailableImages}" SelectedItem="{Binding SelectedImage}" 
+                     IsSynchronizedWithCurrentItem="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid VerticalAlignment="Stretch" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Image Source="{Binding Path=ImageSource}" />
-                            <TextBlock Text="{Binding Path=FilePath}" />
-                        </Grid>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <CheckBox />
+                            </GroupBox.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Image Source="{Binding Path=Image}" Height="100" />
+                                <TextBlock Grid.Row="1" Text="{Binding Path=Filename}" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </GroupBox>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -41,6 +54,6 @@
         
         <Label Grid.Row="2" Target="{Binding ElementName=wallpaperStyleCbx}">_Mise en forme :</Label>
         <ComboBox Grid.Row="2" Grid.Column="1" Name="wallpaperStyleCbx" 
-                  ItemsSource="{Binding Path=AvailableStyles}" SelectedItem="{Binding Path=SelectedStyle}" />
+                  ItemsSource="{utils:EnumValuesProvider EnumType=wp:Style}" SelectedItem="{Binding Path=SelectedStyle}" />
     </Grid>
 </UserControl>

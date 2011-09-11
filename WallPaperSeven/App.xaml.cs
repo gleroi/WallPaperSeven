@@ -12,5 +12,12 @@ namespace WallPaperSeven
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            WallpaperSevenWindow window = new WallpaperSevenWindow();
+            window.DataContext = new WallpaperSevenViewModel();
+
+            window.Show();
+        }
     }
 }

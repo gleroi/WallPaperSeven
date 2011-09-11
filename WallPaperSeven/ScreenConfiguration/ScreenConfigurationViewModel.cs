@@ -4,17 +4,114 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using WallPaperSeven.Utils;
+using System.Windows.Forms;
+using System.IO;
 
 namespace WallPaperSeven.ScreenConfiguration
 {
-    class ScreenConfigurationViewModel
+    class ScreenConfigurationViewModel : ViewModelBase
     {
-        public string SourceDirectoryPath { get; set; }
-        public ObservableCollection<ImageViewModel> AvailableImages { get; set; }
-        public ImageViewModel SelectedImage { get; set; }
-        public List<Wallpaper.Style> AvailableStyles { get; set; }
-        public Wallpaper.Style SelectedStyle { get; set; }
+        string sourceDirectoryPath = null;
+        public string SourceDirectoryPath {
+            get
+            {
+                return sourceDirectoryPath;
+            }
+            set
+            {
+                if (sourceDirectoryPath != value)
+                {
+                    sourceDirectoryPath = value;
+                    UpdateAvailableImages(sourceDirectoryPath);
+                    OnPropertyChanged("SourceDirectoryPath");
+                }
+            }
+        }
 
-        public ICommand SearchDirectoryCommand { get; set; }
+        private void UpdateAvailableImages(string path)
+        {
+            if (!Directory.Exists(path)) throw new ArgumentException("directory path does not exist");
+
+            List<string> paths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly)
+                .Where(filepath => filepath.EndsWith(".png") || filepath.EndsWith(".jpg") ||
+                    filepath.EndsWith(".bmp") || filepath.EndsWith(".jpeg")).ToList();
+            AvailableImages = new ObservableCollection<ImageViewModel>();
+            foreach (string imagePath in paths)
+            {
+                ImageViewModel model = new ImageViewModel();
+                model.Path = imagePath;
+                AvailableImages.Add(model);
+            }
+        }
+
+        ObservableCollection<ImageViewModel> availableImages = null;
+        public ObservableCollection<ImageViewModel> AvailableImages {
+            get { return availableImages; }
+            set
+            {
+                if (availableImages != value)
+                {
+                    availableImages = value;
+                    OnPropertyChanged("AvailableImages");
+                }
+            }
+        }
+
+        ImageViewModel selectedImage = null;
+        public ImageViewModel SelectedImage {
+            get { return selectedImage; }
+            set
+            {
+                if (selectedImage != value)
+                {
+                    selectedImage = value;
+                    OnPropertyChanged("SelectedImage");
+                }
+            }
+        }
+
+        Wallpaper.Style selectedStyle;
+        public Wallpaper.Style SelectedStyle {
+            get { return selectedStyle; }
+            set
+            {
+                if (selectedStyle != value)
+                {
+                    selectedStyle = value;
+                    OnPropertyChanged("SelectedStyle");
+                }
+            }
+        }
+
+        #region SearchDirectoryCommand
+
+        ICommand searchDirectoryCommand = null;
+        public ICommand SearchDirectoryCommand
+        {
+            get
+            {
+                if (searchDirectoryCommand == null)
+                {
+                    searchDirectoryCommand = new DelegateCommand(
+                        param => this.SearchDirectory(),
+                        param => true
+                    );
+                }
+                return searchDirectoryCommand;
+            }
+        }
+
+        private void SearchDirectory()
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            DialogResult result = dialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                SourceDirectoryPath = dialog.SelectedPath;
+            }
+        }
+
+        #endregion
     }
 }

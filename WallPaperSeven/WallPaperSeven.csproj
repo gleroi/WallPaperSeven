@@ -69,9 +69,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ScreenConfiguration\ImageViewModel.cs" />
     <Compile Include="ScreenConfiguration\ScreenConfigurationControl.xaml.cs">
       <DependentUpon>ScreenConfigurationControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScreenConfiguration\ScreenConfigurationViewModel.cs" />
+    <Compile Include="ScreenConfiguration\StyleEnumConverter.cs" />
+    <Compile Include="Utils\DelegateCommand.cs" />
+    <Compile Include="Utils\EnumValuesProvider.cs" />
+    <Compile Include="Utils\ViewModelBase.cs" />
+    <Compile Include="WallpaperSevenViewModel.cs" />
     <Compile Include="WallpaperSevenWindow.xaml.cs">
       <DependentUpon>WallpaperSevenWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
